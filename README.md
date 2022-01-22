@@ -1,6 +1,6 @@
 # URLShortener
 
-DOMAIN_NAME為https://longurl2short.tk/，目前只開通以下兩個API
+網站為https://longurl2short.tk/ ，目前只開通以下兩個API
 
 ## How to init project
 
@@ -60,3 +60,4 @@ BODY:
 ## TODO
 
 1. Add vuejs frontend
+2. Swagger
