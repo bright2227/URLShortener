@@ -1,0 +1,1 @@
+longurl2short.tk

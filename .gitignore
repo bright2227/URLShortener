@@ -1,0 +1,9 @@
+*.bak
+.env
+.venv
+*.log
+app.sock
+log/**
+**/__pycache__/**
+*.sqlite3
+sensitive.py

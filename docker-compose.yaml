@@ -1,0 +1,76 @@
+version: '3.5'
+
+
+services:
+  redis:
+    container_name: redis_${PROJECT_NAME}
+    image: redis:5
+    command: redis-server
+    expose:
+      - "6379"
+    restart: always
+    volumes:
+      - cache_volume:/data
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
+  nginx:
+    container_name: nginx_${PROJECT_NAME}
+    image: staticfloat/nginx-certbot
+    restart: always
+    environment:
+      CERTBOT_EMAIL: ${LETSENCRYPT_EMAIL}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./backend:/backend
+      - ./nginx/conf.d:/etc/nginx/user.conf.d:ro
+      - ./nginx/certbot_extra_domains:/etc/certbot/extra_domains:ro
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    deploy:
+      resources:
+        limits:
+          memory: 50M
+
+  backend:
+    container_name: web_${PROJECT_NAME}
+    image: djgo-py3.7:${PROJECT_NAME}
+    build: ./backend
+    restart: on-failure:3
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      - db
+    deploy:
+      resources:
+        limits:
+          memory: ${MEMORY_LIMIT_FOR_WEB}M
+
+  db:
+    container_name: db_${PROJECT_NAME}
+    image: postgres:12.3
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - db_volume:/var/lib/postgresql/data/
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+
+volumes:
+  db_volume:
+    name: ${PROJECT_NAME}_db
+  cache_volume:
+    name: ${PROJECT_NAME}_cache
