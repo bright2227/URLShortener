@@ -1,0 +1,38 @@
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+KEY = ''
+ALLOWED_HOSTS = ["*"]
+
+
+DEFAULT_DATABASE = {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'postgres',
+    'USER': '',
+    'PASSWORD': '',
+    'HOST': 'db_UrlShortener',  # {container_name}
+    'PORT': '',
+    'CONN_MAX_AGE': 30,
+    'TEST': {
+        'NAME': 'temp_db_for_test',
+    },
+}
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://",  # {container_name}:6379/1
+        # "OPTIONS": {
+        #     "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        #     "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
+    },
+}
+
+
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:8080",
+    "http://localhost:8000",
+    "http://127.0.0.1:8080",
+    "http://127.0.0.1:8000",
+)
