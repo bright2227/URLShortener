@@ -12,7 +12,7 @@ def record_new_sh():
     if sh is None:
         return
 
-    PurgeRecord.objects.create(marked=sh)
+    PurgeRecord.objects.get_or_create(marked=sh)
     return
 
 
@@ -22,5 +22,5 @@ def remove_old_url():
     if p is None:
         return
 
-    Shortener.objects.filter(id__lte=p.id).delete()
+    Shortener.objects.filter(id__lte=p.marked.id).delete()
     return
