@@ -1,6 +1,6 @@
 # URLShortener
 
-網站為https://longurl2short.tk/ ，目前只開通以下兩個API
+網站暫不開放 ，目前以下兩種API
 
 ## How to init project
 
